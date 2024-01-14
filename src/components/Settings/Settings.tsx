@@ -5,7 +5,7 @@ class SettingsProps{
   setLogText!: ( page: string ) => string;
 }
 
-let Settings = ( props: SettingsProps ) => {
+let Settings = ( _props: SettingsProps ) => {
   return (
     <div>
       <h2>Settings</h2>

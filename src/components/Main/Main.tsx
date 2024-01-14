@@ -40,7 +40,7 @@ let Main = ( props: MainProps ) => {
       </div><br />
 
       <div style={{ "text-align": 'right', "margin-top": '-200px' }}>
-        <div class="button" style={{ padding: '10px' }}><i class="fa-solid fa-gear"></i></div>
+        <div class="button" style={{ padding: '10px' }} onClick={() => props.setPage('settings')}><i class="fa-solid fa-gear"></i></div>
       </div>
     </div>
   )

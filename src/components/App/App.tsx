@@ -6,13 +6,17 @@ import Login from '../Login/Login';
 import Signup from '../Signup/Signup';
 import VerifyEmail from '../VerifyEmail/VerifyEmail';
 import Main from '../Main/Main';
+import SessionsVerifyEmail from '../SessionVerifyEmail/VerifyEmail';
+import Settings from '../Settings/Settings';
 
 let pageHeight: any = {
   'loading': 150,
   'login': 295,
   'signup': 445,
   'verify-email': 175,
-  'main': 250
+  'main': 250,
+  'session-email-verify': 175,
+  'settings': 500
 }
 
 let App = () => {
@@ -50,6 +54,12 @@ let App = () => {
           return;
         }
         
+        if(user.error === 'Session requires verification'){
+          setPage('session-email-verify');
+          setLogText('Email Needs Verifying.');
+          return;
+        }
+        
         setPage('login');
         setLogText('Token Invalid. Displaying Login Page.');
         return;
@@ -81,6 +91,12 @@ let App = () => {
           </Match>
           <Match when={page() === 'main'}>
             <Main setPage={setPage} setLogText={setLogText} />
+          </Match>
+          <Match when={page() === 'session-email-verify'}>
+            <SessionsVerifyEmail setPage={setPage} setLogText={setLogText} />
+          </Match>
+          <Match when={page() === 'settings'}>
+            <Settings setPage={setPage} setLogText={setLogText} />
           </Match>
         </Switch>
       </div>

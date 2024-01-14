@@ -42,9 +42,6 @@ let Login = ( props: LoginProps ) => {
     if(res.valid)
       return props.setPage('main');
 
-    if(res.requiresMfa)
-      return props.setPage('mfa');
-
     props.setPage('session-email-verify');
   }
 

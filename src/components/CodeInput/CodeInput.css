@@ -1,0 +1,13 @@
+.input-code{
+  width: 30px;
+  text-align: center;
+  border: none;
+  outline: none;
+  background: #285075;
+  padding: 10px;
+  color: white;
+  font-size: 15px;
+  font-family: Rubik, 'Courier New';
+  border-radius: 5px;
+  margin: 2px;
+}

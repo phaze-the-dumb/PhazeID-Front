@@ -17,7 +17,7 @@ let pageHeight: any = {
   'verify-email': 175,
   'main': 250,
   'session-email-verify': 175,
-  'settings': 348
+  'settings': 400
 }
 
 let App = () => {

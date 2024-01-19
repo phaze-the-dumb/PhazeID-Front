@@ -1,5 +1,6 @@
-import { onMount, Switch, Match } from 'solid-js';
+import { onMount, Switch, Match, Show } from 'solid-js';
 import './Settings.css';
+import CodeInput from '../CodeInput/CodeInput';
 
 class SettingsProps{
   setPage!: ( page: string ) => string;
@@ -54,7 +55,94 @@ let Settings = ( props: SettingsProps ) => {
   }  
   
   let changePassword = () => {
+    let oldPass: string | null = null;
+    let newPass: string | null = null;
+    let confirmNewPass: string | null = null;
+    let mfaCode: string | null = null;
 
+    let submit = async () => {
+      content.innerHTML = 'Loading...';
+
+      if(newPass !== confirmNewPass){
+        content.innerHTML = 'Passwords must be the same.';
+        props.setLogText('Failed to set password.');
+
+        return;
+      }
+
+      let encoder = new TextEncoder();
+
+      let oldHashBuffer = await crypto.subtle.digest('SHA-512', encoder.encode(oldPass!));
+      let oldHashArray = Array.from(new Uint8Array(oldHashBuffer));
+
+      let oldHashHex = oldHashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+
+      let newHashBuffer = await crypto.subtle.digest('SHA-512', encoder.encode(newPass!));
+      let newHashArray = Array.from(new Uint8Array(newHashBuffer));
+
+      let newHashHex = newHashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+
+      fetch('https://api.phazed.xyz/id/v1/auth/password?token='+localStorage.getItem('token'), {
+        method: 'PUT',
+        body: JSON.stringify({
+          password: newHashHex,
+          previousPass: oldHashHex,
+          mfaCode: mfaCode
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(data => data.json())
+        .then(data => {
+          if(!data.ok){
+            content.innerHTML = 'Error Changing Username: ' + data.error;
+            props.setLogText('Error Changing Username: ' + data.error);
+
+            return;
+          }
+
+          mainSettings();
+        })
+        .catch(e => {
+          content.innerHTML = 'Error Changing Username: ' + e;
+          props.setLogText('Error Changing Username: ' + e);
+        })
+    }
+
+    let codeChange = ( val: string ) => { mfaCode = val };
+
+    content.innerHTML = '';
+    content.appendChild(<div>
+      <h4>Change Password</h4>
+
+      <div class="input" style={{ 'margin-top': '5px'}}>
+        <input class="input-text" type="password" placeholder="Enter Old Password..." onInput={( el ) => oldPass = el.target.value}></input>
+        <div class="input-underline"></div>
+      </div><br />
+
+      <div class="input" style={{ 'margin-top': '5px'}}>
+        <input class="input-text" type="password" placeholder="Enter New Password..." onInput={( el ) => newPass = el.target.value}></input>
+        <div class="input-underline"></div>
+      </div><br />
+
+      <div class="input" style={{ 'margin-top': '5px'}}>
+        <input class="input-text" type="password" placeholder="Confirm New Password..." onInput={( el ) => confirmNewPass = el.target.value}></input>
+        <div class="input-underline"></div>
+      </div><br />
+
+      <Show when={userInfo.hasMfa}>
+        <CodeInput onChange={codeChange} /><br />
+      </Show>
+      
+      <br />
+      <div class="button" style={{ width: '100%' }} onClick={submit}>Save</div><br />
+      <div class="button" style={{ width: '100%', 'margin-top': '7px' }} onClick={mainSettings}>Cancel</div>
+    </div> as Node);
   }
   
   let changeUsername = () => {

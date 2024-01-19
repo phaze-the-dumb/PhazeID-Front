@@ -8,6 +8,7 @@ import VerifyEmail from '../VerifyEmail/VerifyEmail';
 import Main from '../Main/Main';
 import SessionsVerifyEmail from '../SessionVerifyEmail/VerifyEmail';
 import Settings from '../Settings/Settings';
+import DownMenu from '../DownMenu/DownMenu';
 
 let pageHeight: any = {
   'loading': 150,
@@ -16,7 +17,7 @@ let pageHeight: any = {
   'verify-email': 175,
   'main': 250,
   'session-email-verify': 175,
-  'settings': 500
+  'settings': 348
 }
 
 let App = () => {
@@ -32,8 +33,10 @@ let App = () => {
   fetch('https://api.phazed.xyz/api/status')
     .then(data => data.json())
     .then(async statusCheck => {
-      if(!statusCheck.ok)
+      if(!statusCheck.ok){
+        setPage('down');
         return setLogText('API Down');
+      }
 
       setLogText('API Up, Checking User Information.');
       let token = localStorage.getItem('token');
@@ -70,6 +73,7 @@ let App = () => {
     })
     .catch(e => {
       console.error(e);
+      setPage('down');
       return setLogText('API Down');
     })
 
@@ -79,6 +83,9 @@ let App = () => {
         <Switch>
           <Match when={page() === 'loading'}>
             <LoadingMenu />
+          </Match>
+          <Match when={page() === 'down'}>
+            <DownMenu />
           </Match>
           <Match when={page() === 'login'}>
             <Login setPage={setPage} setLogText={setLogText} />

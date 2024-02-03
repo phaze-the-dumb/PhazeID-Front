@@ -9,15 +9,19 @@ import Main from '../Main/Main';
 import SessionsVerifyEmail from '../SessionVerifyEmail/VerifyEmail';
 import Settings from '../Settings/Settings';
 import DownMenu from '../DownMenu/DownMenu';
+import EnableMFA from '../EnableMFA/EnableMFA';
+import SessionsVerifyMFA from '../SessionVerifyMFA/VerifyMFA';
 
 let pageHeight: any = {
   'loading': 150,
-  'login': 295,
+  'login': 325,
   'signup': 445,
   'verify-email': 175,
   'main': 250,
   'session-email-verify': 175,
-  'settings': 400
+  'settings': 450,
+  'reset-password': 175,
+  'enable-mfa': 410
 }
 
 let App = () => {
@@ -102,8 +106,17 @@ let App = () => {
           <Match when={page() === 'session-email-verify'}>
             <SessionsVerifyEmail setPage={setPage} setLogText={setLogText} />
           </Match>
+          <Match when={page() === 'session-mfa-verify'}>
+            <SessionsVerifyMFA setPage={setPage} setLogText={setLogText} />
+          </Match>
           <Match when={page() === 'settings'}>
             <Settings setPage={setPage} setLogText={setLogText} />
+          </Match>
+          <Match when={page() === 'reset-password'}>
+            <Settings setPage={setPage} setLogText={setLogText} />
+          </Match>
+          <Match when={page() === 'enable-mfa'}>
+            <EnableMFA setPage={setPage} setLogText={setLogText} />
           </Match>
         </Switch>
       </div>

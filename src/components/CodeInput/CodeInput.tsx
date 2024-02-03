@@ -11,12 +11,25 @@ let CodeInput = ( props: CodeInputProps ) => {
   onMount(() => {
     codeInputs.forEach((inpt, i) => {
       inpt.onkeyup = ( e: KeyboardEvent ) => {
-        if(inpt.value.length > 1)
-          inpt.value = inpt.value[0];
+        if(inpt.value.length > 1){
+          inpt.value.split('').forEach((char, i) => {
+            if(codeInputs[i])
+              codeInputs[i].value = char;
+
+            if(i >= 5)
+              return props.onChange(codeInputs.map(x => x.value).join(''));
+          })
+        }
 
         if(e.key === 'Backspace'){
           if(codeInputs[i - 1])
             codeInputs[i - 1].select();
+        } else if(e.key === 'ArrowLeft'){
+          if(codeInputs[i - 1])
+            codeInputs[i - 1].select();
+        } else if(e.key === 'ArrowRight'){
+          if(codeInputs[i + 1])
+            codeInputs[i + 1].select();
         } else{
           if(codeInputs[i + 1])
             codeInputs[i + 1].select();

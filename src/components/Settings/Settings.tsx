@@ -188,19 +188,47 @@ let Settings = ( props: SettingsProps ) => {
     </div> as Node);
   }
 
+  let logout = () => {
+    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token='+localStorage.getItem('token'))
+      .then(data => data.json())
+      .then(data => {
+        if(!data.ok)
+          return props.setLogText('Error Logging Out (Fetching Sessions): ' + data.error);
+
+        fetch('https://api.phazed.xyz/id/v1/auth/sessions?token=' + localStorage.getItem('token') + '&sessionId=' + data.currentSession, { method: 'DELETE' })
+          .then(data => data.json())
+          .then(data => {
+            if(!data.ok)
+              return props.setLogText('Error Logging Out (Deleting Session): ' + data.error);
+
+            props.setLogText('Logged Out Successfully.');
+            window.location.reload();
+          })     
+          .catch(e => {
+            props.setLogText('Error Logging Out (Deleting Session): ' + e);
+          })   
+      })   
+      .catch(e => {
+        props.setLogText('Error Logging Out (Fetching Sessions): ' + e);
+      }) 
+  }
+
   let mainSettings = () => {
     content.innerHTML = '';
     content.appendChild(<div>
-      <h4>MFA Settings</h4>
+      <h4>Security</h4>
 
       <Switch>
         <Match when={userInfo.hasMfa}>
-          <div class="button" style={{ width: '100%' }}>Disable 2FA</div>
+          <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('disable-mfa')}>Disable 2FA</div>
         </Match>
         <Match when={!userInfo.hasMfa}>
-          <div class="button" style={{ width: '100%' }}>Enable 2FA</div>
+          <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('enable-mfa')}>Enable 2FA</div>
         </Match>
       </Switch>
+      <br />
+      
+      <div class="button" style={{ width: '100%', 'margin-top': '5px' }} onClick={() => {}}>Authenticated Devices</div>
       <br /><br />
 
       <h4>Profile</h4>
@@ -236,6 +264,7 @@ let Settings = ( props: SettingsProps ) => {
 
       <div ref={( el ) => content = el}>Loading...</div><br />
 
+      <div class="button" style={{ width: '100%' }} onClick={() => logout()}>Logout</div><br /><br />
       <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('main')}>Back</div>
     </div>
   )

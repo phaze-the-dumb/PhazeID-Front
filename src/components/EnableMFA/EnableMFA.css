@@ -1,0 +1,90 @@
+.mfa-qr{
+  width: 200px;
+  height: 200px;
+  display: inline-flex;
+  text-align: center;
+  border-radius: 5px;
+  background: #0005;
+  box-shadow: inset #000 0 0 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.mfa-qr img{
+  width: 200px;
+  height: 200px;
+  border-radius: 5px;
+  display: none;
+}
+
+.mfa-qr-loading{
+  width: 200px;
+  height: 200px;
+  animation: image-load 0.75s infinite linear;
+}
+
+@keyframes image-load {
+  0%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 0%, #0000 0%);
+  }
+  5%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 5%, #0000 10%);
+  }
+  10%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 10%, #0000 20%);
+  }
+  15%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 15%, #0000 30%);
+  }
+  20%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 20%, #0000 40%);
+  }
+  25%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 25%, #0000 50%);
+  }
+  30%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 30%, #0000 60%);
+  }
+  35%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 35%, #0000 70%);
+  }
+  40%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 40%, #0000 80%);
+  }
+  45%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 45%, #0000 90%);
+  }
+  50%{
+    background: linear-gradient(to bottom right, #0000 0%, #8885 50%, #0000 100%);
+  }
+  55%{
+    background: linear-gradient(to bottom right, #0000 10%, #8885 55%, #0000 100%);
+  }
+  60%{
+    background: linear-gradient(to bottom right, #0000 20%, #8885 60%, #0000 100%);
+  }
+  65%{
+    background: linear-gradient(to bottom right, #0000 30%, #8885 65%, #0000 100%);
+  }
+  70%{
+    background: linear-gradient(to bottom right, #0000 40%, #8885 70%, #0000 100%);
+  }
+  75%{
+    background: linear-gradient(to bottom right, #0000 50%, #8885 75%, #0000 100%);
+  }
+  80%{
+    background: linear-gradient(to bottom right, #0000 60%, #8885 80%, #0000 100%);
+  }
+  85%{
+    background: linear-gradient(to bottom right, #0000 70%, #8885 85%, #0000 100%);
+  }
+  90%{
+    background: linear-gradient(to bottom right, #0000 80%, #8885 90%, #0000 100%);
+  }
+  95%{
+    background: linear-gradient(to bottom right, #0000 90%, #8885 95%, #0000 100%);
+  }
+  100%{
+    background: linear-gradient(to bottom right, #0000 100%, #8885 100%, #0000 100%);
+  }
+}

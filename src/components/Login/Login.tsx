@@ -39,6 +39,9 @@ let Login = ( props: LoginProps ) => {
     localStorage.setItem('token', res.session);
     props.setLogText('Success.');
 
+    if(res.requiresMfa)
+      return props.setPage('session-mfa-verify');
+
     if(res.valid)
       return props.setPage('main');
 
@@ -66,6 +69,10 @@ let Login = ( props: LoginProps ) => {
 
       <div class="button-text" onClick={() => props.setPage('signup')}>
         I don't have an account
+      </div>
+
+      <div class="button-text" style={{ color: '#999' }} onClick={() => props.setPage('reset-password')}>
+        Forgot Password?
       </div>
     </div>
   )

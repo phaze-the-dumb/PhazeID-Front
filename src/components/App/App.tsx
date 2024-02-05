@@ -11,6 +11,7 @@ import Settings from '../Settings/Settings';
 import DownMenu from '../DownMenu/DownMenu';
 import EnableMFA from '../EnableMFA/EnableMFA';
 import SessionsVerifyMFA from '../SessionVerifyMFA/VerifyMFA';
+import Sessions from '../Sessions/Sessions';
 
 let pageHeight: any = {
   'loading': 150,
@@ -117,6 +118,9 @@ let App = () => {
           </Match>
           <Match when={page() === 'enable-mfa'}>
             <EnableMFA setPage={setPage} setLogText={setLogText} />
+          </Match>
+          <Match when={page() === 'sessions'}>
+            <Sessions setPage={setPage} setLogText={setLogText} />
           </Match>
         </Switch>
       </div>

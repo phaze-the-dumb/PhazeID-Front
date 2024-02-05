@@ -210,7 +210,22 @@ let Settings = ( props: SettingsProps ) => {
       })   
       .catch(e => {
         props.setLogText('Error Logging Out (Fetching Sessions): ' + e);
-      }) 
+      })
+  }
+
+  let disableMFA = () => {
+    fetch('https://api.phazed.xyz/id/v1/auth/mfa/disable?token='+localStorage.getItem('token'))
+      .then(data => data.json())
+      .then(data => {
+        if(!data.ok)
+          return props.setLogText(data.error);
+
+        props.setLogText('MFA Disabled. Reloading...');
+        window.location.reload();
+      })
+      .catch(e => {
+        props.setLogText('Error: '+e);
+      })
   }
 
   let mainSettings = () => {
@@ -220,7 +235,7 @@ let Settings = ( props: SettingsProps ) => {
 
       <Switch>
         <Match when={userInfo.hasMfa}>
-          <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('disable-mfa')}>Disable 2FA</div>
+          <div class="button" style={{ width: '100%' }} onClick={() => disableMFA()}>Disable 2FA</div>
         </Match>
         <Match when={!userInfo.hasMfa}>
           <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('enable-mfa')}>Enable 2FA</div>
@@ -228,7 +243,7 @@ let Settings = ( props: SettingsProps ) => {
       </Switch>
       <br />
       
-      <div class="button" style={{ width: '100%', 'margin-top': '5px' }} onClick={() => {}}>Authenticated Devices</div>
+      <div class="button" style={{ width: '100%', 'margin-top': '5px' }} onClick={() => props.setPage('sessions')}>Authenticated Devices</div>
       <br /><br />
 
       <h4>Profile</h4>

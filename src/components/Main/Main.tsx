@@ -17,8 +17,12 @@ let Main = ( props: MainProps ) => {
       .then(data => data.json())
       .then(data => {
         if(!data.ok){
+          if(data.error === 'MFA Auth Needed')
+            return props.setPage('session-mfa-verify');
+
           props.setPage('login');
           props.setLogText(data.error);
+          return;
         }
 
         console.log(data);

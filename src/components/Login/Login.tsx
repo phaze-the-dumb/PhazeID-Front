@@ -39,9 +39,6 @@ let Login = ( props: LoginProps ) => {
     localStorage.setItem('token', res.session);
     props.setLogText('Success.');
 
-    if(res.requiresMfa)
-      return props.setPage('session-mfa-verify');
-
     if(res.valid)
       return props.setPage('main');
 

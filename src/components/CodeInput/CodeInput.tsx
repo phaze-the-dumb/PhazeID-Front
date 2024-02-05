@@ -23,16 +23,16 @@ let CodeInput = ( props: CodeInputProps ) => {
 
         if(e.key === 'Backspace'){
           if(codeInputs[i - 1])
-            codeInputs[i - 1].select();
+            codeInputs[i - 1].focus();
         } else if(e.key === 'ArrowLeft'){
           if(codeInputs[i - 1])
-            codeInputs[i - 1].select();
+            codeInputs[i - 1].focus();
         } else if(e.key === 'ArrowRight'){
           if(codeInputs[i + 1])
-            codeInputs[i + 1].select();
+            codeInputs[i + 1].focus();
         } else{
           if(codeInputs[i + 1])
-            codeInputs[i + 1].select();
+            codeInputs[i + 1].focus();
           else
             props.onChange(codeInputs.map(x => x.value).join(''));
         }

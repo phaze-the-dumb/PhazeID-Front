@@ -279,7 +279,7 @@ let Settings = ( props: SettingsProps ) => {
 
       <div ref={( el ) => content = el}>Loading...</div><br />
 
-      <div class="button" style={{ width: '100%' }} onClick={() => logout()}>Logout</div><br /><br />
+      <div class="button-danger" style={{ width: '100%' }} onClick={() => logout()}>Logout</div><br /><br />
       <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('main')}>Back</div>
     </div>
   )

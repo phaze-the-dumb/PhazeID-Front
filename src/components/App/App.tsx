@@ -12,6 +12,8 @@ import DownMenu from '../DownMenu/DownMenu';
 import EnableMFA from '../EnableMFA/EnableMFA';
 import SessionsVerifyMFA from '../SessionVerifyMFA/VerifyMFA';
 import Sessions from '../Sessions/Sessions';
+import ResetPassword from '../ResetPassword/ResetPassword';
+import FinalPassReset from '../FinalPassReset/FinalPassReset';
 
 let pageHeight: any = {
   'loading': 150,
@@ -22,6 +24,7 @@ let pageHeight: any = {
   'session-email-verify': 175,
   'settings': 450,
   'reset-password': 175,
+  'password-reset': 230,
   'enable-mfa': 410
 }
 
@@ -29,6 +32,13 @@ let App = () => {
   let [ logText, setLogText ] = createSignal('Loading Page...');
   let [ page, setPage ] = createSignal('loading');
   let [ containerHeight, setContainerHeight ] = createSignal(275);
+
+  let query: any = {};
+  let queryString = window.location.href.split('?')[1];
+
+  queryString.split('&').forEach(str => {
+    query[str.split('=')[0]] = str.split('=')[1]
+  })
 
   createEffect(() => {
     setContainerHeight(pageHeight[page()]);
@@ -43,13 +53,16 @@ let App = () => {
         return setLogText('API Down');
       }
 
+      if(query['passreset'])
+        return setPage('password-reset');
+
       setLogText('API Up, Checking User Information.');
       let token = localStorage.getItem('token');
 
       if(!token){
         setPage('login');
         setLogText('No Token Found. Displaying Login Page.');
-        return ;
+        return;
       }
 
       setLogText('Token Found. Checking Validity.');
@@ -114,13 +127,16 @@ let App = () => {
             <Settings setPage={setPage} setLogText={setLogText} />
           </Match>
           <Match when={page() === 'reset-password'}>
-            <Settings setPage={setPage} setLogText={setLogText} />
+            <ResetPassword setLogText={setLogText} />
           </Match>
           <Match when={page() === 'enable-mfa'}>
             <EnableMFA setPage={setPage} setLogText={setLogText} />
           </Match>
           <Match when={page() === 'sessions'}>
             <Sessions setPage={setPage} setLogText={setLogText} />
+          </Match>
+          <Match when={page() === 'password-reset'}>
+            <FinalPassReset setPage={setPage} setLogText={setLogText} resetToken={query['passreset']} />
           </Match>
         </Switch>
       </div>

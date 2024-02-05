@@ -41,7 +41,7 @@ let FinalPassReset = ( props: FinalPassResetProps ) => {
       return props.setLogText(res.error);
     
     props.setLogText('Password reset successful');
-    props.setPage('login');
+    window.location.href = '/';
   }
 
   return (

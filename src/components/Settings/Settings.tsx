@@ -250,7 +250,8 @@ let Settings = ( props: SettingsProps ) => {
 
       <div class="button" style={{ width: '100%' }} onClick={changeEmail}>Change Email</div><br />
       <div class="button" style={{ width: '100%', 'margin-top': '5px' }} onClick={changeUsername}>Change Username</div><br />
-      <div class="button" style={{ width: '100%', 'margin-top': '5px' }} onClick={changePassword}>Change Password</div>
+      <div class="button" style={{ width: '100%', 'margin-top': '5px' }} onClick={changePassword}>Change Password</div><br /><br />
+      <div class="button-danger" style={{ width: '100%' }} onClick={() => logout()}>Logout</div><br />
     </div> as Node);
   }
 
@@ -279,7 +280,6 @@ let Settings = ( props: SettingsProps ) => {
 
       <div ref={( el ) => content = el}>Loading...</div><br />
 
-      <div class="button-danger" style={{ width: '100%' }} onClick={() => logout()}>Logout</div><br /><br />
       <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('main')}>Back</div>
     </div>
   )

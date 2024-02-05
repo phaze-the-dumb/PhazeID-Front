@@ -75,3 +75,20 @@ h1, h2, h3, h4, h5, h6, p{
   cursor: pointer;
   user-select: none;
 }
+
+.button-danger{
+  padding: 10px 50px;
+  display: inline-block;
+  background: #752828;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: #0000 0 0 10px;
+  transition: 0.25s;
+  text-align: center;
+}
+
+.button-danger:hover{
+  background: #4e1a1a;
+  box-shadow: #0005 0 0 10px;
+}

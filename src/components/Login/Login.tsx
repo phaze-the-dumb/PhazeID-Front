@@ -8,8 +8,12 @@ class LoginProps{
 let Login = ( props: LoginProps ) => {
   let username: HTMLInputElement;
   let password: HTMLInputElement;
+  let inLoad = false;
 
   let login = async () => {
+    if(inLoad)return;
+    inLoad = true;
+
     let encoder = new TextEncoder();
     let data = encoder.encode(password.value);
 

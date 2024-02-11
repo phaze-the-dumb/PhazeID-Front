@@ -10,8 +10,12 @@ let Signup = ( props: SignupProps ) => {
   let email: HTMLInputElement;
   let password: HTMLInputElement;
   let passwordConfirm: HTMLInputElement;
+  let inLoad = false;
 
   let signup = async () => {
+    if(inLoad)return;
+    inLoad = true;
+    
     if(password.value !== passwordConfirm.value)
       return props.setLogText('Error: Passwords must be the same.');
 

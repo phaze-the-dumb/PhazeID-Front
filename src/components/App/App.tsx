@@ -1,4 +1,4 @@
-import { Match, Switch, createEffect, createSignal, onMount } from 'solid-js'
+import { Match, Switch, createEffect, createSignal } from 'solid-js'
 import './App.css'
 
 import LoadingMenu from '../LoadingMenu/LoadingMenu';

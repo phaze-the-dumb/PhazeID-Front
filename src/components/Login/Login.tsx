@@ -37,8 +37,10 @@ let Login = ( props: LoginProps ) => {
 
     let res = await req.json();
 
-    if(!res.ok)
+    if(!res.ok){
+      inLoad = false;
       return props.setLogText(res.error);
+    }
 
     localStorage.setItem('token', res.session);
     props.setLogText('Success.');

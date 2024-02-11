@@ -19,7 +19,7 @@ let Signup = ( props: SignupProps ) => {
     if(password.value !== passwordConfirm.value)
       return props.setLogText('Error: Passwords must be the same.');
 
-    if(!email.value.match(/[a-zA-z]{1,}[@].{1,}[.].{1,}/gm))
+    if(!email.value.match(/[a-zA-z0-9]{1,}[@].{1,}[.].{1,}/gm))
       return props.setLogText('Invalid Email');
 
     let encoder = new TextEncoder();

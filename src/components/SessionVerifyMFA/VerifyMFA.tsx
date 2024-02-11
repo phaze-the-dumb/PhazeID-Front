@@ -18,8 +18,8 @@ let SessionsVerifyMFA = ( props: SessionsVerifyEmailProps ) => {
         if(!data.ok)
           return props.setLogText('Verification Failed: ' + data.error);
 
-          props.setLogText('Verification Success, Fetching User Information.');
-          props.setPage('main');
+        props.setLogText('Verification Success, Fetching User Information.');
+        return props.setPage('main');
       })
       .catch(e => {
         console.error(e);

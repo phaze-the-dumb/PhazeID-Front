@@ -11,6 +11,18 @@ let Main = ( props: MainProps ) => {
   let headingText: HTMLElement;
   let profile: HTMLElement;
 
+  let query: any = {};
+  let queryString = window.location.href.split('?')[1];
+
+  if(queryString){
+    queryString.split('&').forEach(str => {
+      query[str.split('=')[0]] = str.split('=')[1]
+    })
+  }
+  
+  if(query['oauth'])
+    return props.setPage('oauth');
+
   onMount(() => {
     props.setLogText('Requesting User Information.');
     fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+localStorage.getItem('token'))

@@ -46,18 +46,9 @@ let Login = ( props: LoginProps ) => {
     props.setLogText('Success.');
 
     if(res.valid){
-      let query: any = {};
-      let queryString = window.location.href.split('?')[1];
-    
-      if(queryString){
-        queryString.split('&').forEach(str => {
-          query[str.split('=')[0]] = str.split('=')[1]
-        })
-      }
+      if(res.requiresMfa)
+        return props.setPage('session-mfa-verify');
       
-      if(query['oauth'])
-        return props.setPage('oauth');
-
       return props.setPage('main');
     }
 

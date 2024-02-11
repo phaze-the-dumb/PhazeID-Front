@@ -1,4 +1,4 @@
-import { Match, Switch, createEffect, createSignal } from 'solid-js'
+import { Match, Switch, createEffect, createSignal, onMount } from 'solid-js'
 import './App.css'
 
 import LoadingMenu from '../LoadingMenu/LoadingMenu';
@@ -14,6 +14,7 @@ import SessionsVerifyMFA from '../SessionVerifyMFA/VerifyMFA';
 import Sessions from '../Sessions/Sessions';
 import ResetPassword from '../ResetPassword/ResetPassword';
 import FinalPassReset from '../FinalPassReset/FinalPassReset';
+import OAuth from '../OAuth/OAuth';
 
 let pageHeight: any = {
   'loading': 150,
@@ -21,7 +22,9 @@ let pageHeight: any = {
   'signup': 445,
   'verify-email': 175,
   'main': 300,
+  'oauth': 200,
   'session-email-verify': 175,
+  'session-mfa-verify': 175,
   'settings': 450,
   'reset-password': 175,
   'password-reset': 230,
@@ -71,6 +74,9 @@ let App = () => {
       let user = await (await fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+token)).json();
 
       if(!user.ok){
+        if(user.error === 'MFA Auth Needed')
+          return setPage('session-mfa-verify');
+
         if(user.error === 'Verify Email'){
           setPage('verify-email');
           setLogText('Email Needs Verifying.');
@@ -88,11 +94,8 @@ let App = () => {
         return;
       }
 
-      if(query['oauth'])
-        return setPage('oauth');
-
-      setPage('main');
       setLogText('Token Valid. Loading User Information.');
+      setPage('main');
     })
     .catch(e => {
       console.error(e);
@@ -144,7 +147,7 @@ let App = () => {
             <FinalPassReset setPage={setPage} setLogText={setLogText} resetToken={query['passreset']} />
           </Match>
           <Match when={page() === 'oauth'}>
-            <FinalPassReset setPage={setPage} setLogText={setLogText} resetToken={query['passreset']} />
+            <OAuth setPage={setPage} setLogText={setLogText} />
           </Match>
         </Switch>
       </div>

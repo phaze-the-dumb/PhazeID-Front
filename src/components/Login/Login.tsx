@@ -45,8 +45,21 @@ let Login = ( props: LoginProps ) => {
     localStorage.setItem('token', res.session);
     props.setLogText('Success.');
 
-    if(res.valid)
+    if(res.valid){
+      let query: any = {};
+      let queryString = window.location.href.split('?')[1];
+    
+      if(queryString){
+        queryString.split('&').forEach(str => {
+          query[str.split('=')[0]] = str.split('=')[1]
+        })
+      }
+      
+      if(query['oauth'])
+        return props.setPage('oauth');
+
       return props.setPage('main');
+    }
 
     props.setPage('session-email-verify');
   }

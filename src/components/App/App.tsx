@@ -20,7 +20,7 @@ let pageHeight: any = {
   'login': 325,
   'signup': 445,
   'verify-email': 175,
-  'main': 250,
+  'main': 300,
   'session-email-verify': 175,
   'settings': 450,
   'reset-password': 175,
@@ -88,6 +88,9 @@ let App = () => {
         return;
       }
 
+      if(query['oauth'])
+        return setPage('oauth');
+
       setPage('main');
       setLogText('Token Valid. Loading User Information.');
     })
@@ -138,6 +141,9 @@ let App = () => {
             <Sessions setPage={setPage} setLogText={setLogText} />
           </Match>
           <Match when={page() === 'password-reset'}>
+            <FinalPassReset setPage={setPage} setLogText={setLogText} resetToken={query['passreset']} />
+          </Match>
+          <Match when={page() === 'oauth'}>
             <FinalPassReset setPage={setPage} setLogText={setLogText} resetToken={query['passreset']} />
           </Match>
         </Switch>

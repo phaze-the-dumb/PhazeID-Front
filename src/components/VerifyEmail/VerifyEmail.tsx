@@ -19,6 +19,19 @@ let VerifyEmail = ( props: VerifyEmailProps ) => {
           return props.setLogText('Verification Failed: ' + data.error);
 
           props.setLogText('Verification Success, Fetching User Information.');
+
+          let query: any = {};
+          let queryString = window.location.href.split('?')[1];
+        
+          if(queryString){
+            queryString.split('&').forEach(str => {
+              query[str.split('=')[0]] = str.split('=')[1]
+            })
+          }
+          
+          if(query['oauth'])
+            return props.setPage('oauth');
+          
           props.setPage('main');
       })
       .catch(e => {

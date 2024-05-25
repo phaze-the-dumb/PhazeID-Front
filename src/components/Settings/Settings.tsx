@@ -7,8 +7,16 @@ class SettingsProps{
   setLogText!: ( page: string ) => string;
 }
 
+const PATREON_TIER_MESSAGES: any = {
+  '23051636': 'Thank you for being a Patreon!',
+  '23052574': 'Thank you for being a VIP Patreon!'
+}
+
 let Settings = ( props: SettingsProps ) => {
   let content: HTMLElement;
+  let patreonAd: HTMLElement;
+  let patreonThanks: HTMLElement;
+  let patreonMessage: HTMLElement;
   let userInfo: any;
 
   let changeEmail = () => {
@@ -255,6 +263,32 @@ let Settings = ( props: SettingsProps ) => {
     </div> as Node);
   }
 
+  let refreshPatreon = () => {
+    props.setLogText('Refreshing Patreon data.');
+    fetch('https://api.phazed.xyz/id/v1/patreon/refresh?token='+localStorage.getItem('token'))
+      .then(data => data.json())
+      .then(data => {
+        if(!data.ok){
+          return props.setLogText('Error Refreshing Patreon data: ' + data.error);
+        }
+
+        fetch('https://api.phazed.xyz/id/v1/patreon/tiers?token='+localStorage.getItem('token'))
+          .then(data => data.json())
+          .then(data => {
+            if(!data.ok)return;
+
+            patreonAd.style.display = 'none';
+            patreonThanks.style.display = 'block';
+
+            data.tiers.forEach(( t: any ) => {
+              if(PATREON_TIER_MESSAGES[t.id]){
+                patreonMessage.innerText = PATREON_TIER_MESSAGES[t.id];
+              }
+            })
+          })
+      })
+  }
+
   onMount(() => {
     props.setLogText('Requesting User Information.');
     fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+localStorage.getItem('token'))
@@ -272,6 +306,21 @@ let Settings = ( props: SettingsProps ) => {
 
         mainSettings();        
       })
+
+    fetch('https://api.phazed.xyz/id/v1/patreon/tiers?token='+localStorage.getItem('token'))
+      .then(data => data.json())
+      .then(data => {
+        if(!data.ok)return;
+
+        patreonAd.style.display = 'none';
+        patreonThanks.style.display = 'block';
+
+        data.tiers.forEach(( t: any ) => {
+          if(PATREON_TIER_MESSAGES[t.id]){
+            patreonMessage.innerText = PATREON_TIER_MESSAGES[t.id];
+          }
+        })
+      })
   })
   
   return (
@@ -281,6 +330,15 @@ let Settings = ( props: SettingsProps ) => {
       <div ref={( el ) => content = el}>Loading...</div><br />
 
       <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('main')}>Back</div>
+
+      <div ref={( el ) => patreonAd = el} class="patreon-button" onClick={() => window.open('https://api.phazed.xyz/id/v1/patreon?token='+localStorage.getItem('token')!)}>Link Patreon Account</div>
+      <div style={{ display: 'none' }} ref={( el ) => patreonThanks = el}>
+        <div class="patreon-button" onClick={() => refreshPatreon()}>Refresh Patreon Account</div><br />
+
+        <div ref={( el ) => patreonMessage = el}>
+          You can find my Patreon page <span class="link" onClick={() => window.open('https://www.patreon.com/_phaz')}>here</span>
+        </div>
+      </div>
     </div>
   )
 }

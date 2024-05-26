@@ -23,6 +23,9 @@ let Main = ( props: MainProps ) => {
   if(query['oauth'])
     return props.setPage('oauth');
 
+  if(query['patreon'])
+    window.open('https://api.phazed.xyz/id/v1/patreon?token='+localStorage.getItem('token')!);
+
   onMount(() => {
     props.setLogText('Requesting User Information.');
     fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+localStorage.getItem('token'))

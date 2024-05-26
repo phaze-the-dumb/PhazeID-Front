@@ -285,6 +285,8 @@ let Settings = ( props: SettingsProps ) => {
                 patreonMessage.innerText = PATREON_TIER_MESSAGES[t.id];
               }
             })
+
+            props.setLogText('Refreshed Patreon data.');
           })
       })
   }

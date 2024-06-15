@@ -1,5 +1,6 @@
 import { onMount, For, Show } from 'solid-js';
 import './Sessions.css'
+import * as cooki from '../../cookilib';
 
 class SessionsProps{
   setPage!: ( page: string ) => string;

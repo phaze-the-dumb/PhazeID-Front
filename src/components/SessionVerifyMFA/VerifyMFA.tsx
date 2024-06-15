@@ -1,5 +1,6 @@
 import CodeInput from '../CodeInput/CodeInput';
 import './VerifyMFA.css';
+import * as cooki from '../../cookilib';
 
 class SessionsVerifyEmailProps{
   setPage!: ( page: string ) => string;
@@ -8,7 +9,7 @@ class SessionsVerifyEmailProps{
 
 let SessionsVerifyMFA = ( props: SessionsVerifyEmailProps ) => {
   let mfaCode = ( code: string ) => {
-    fetch('https://api.phazed.xyz/id/v1/auth/mfa?token='+localStorage.getItem('token'), {
+    fetch('https://api.phazed.xyz/id/v1/auth/mfa?token='+cooki.getStore('token'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code })

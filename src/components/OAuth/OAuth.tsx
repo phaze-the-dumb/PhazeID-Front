@@ -1,5 +1,5 @@
 import { onMount } from 'solid-js';
-
+import * as cooki from '../../cookilib';
 import './OAuth.css'
 
 class OAuthProps{
@@ -23,20 +23,20 @@ let OAuth = ( props: OAuthProps ) => {
     props.setPage('main');
 
   onMount(() => {
-    fetch('https://api.phazed.xyz/id/v1/oauth/app?token='+localStorage.getItem('token')+'&appid='+query['oauth'])
+    fetch('https://api.phazed.xyz/id/v1/oauth/app?token='+cooki.getStore('token')+'&appid='+query['oauth'])
       .then(data => data.json())
       .then(data => {
         if(!data.ok)
           return window.location.href = '/';
 
         let accept = () => {
-          fetch('https://api.phazed.xyz/id/v1/oauth/accept?token='+localStorage.getItem('token')+'&appid='+query['oauth'])
+          fetch('https://api.phazed.xyz/id/v1/oauth/accept?token='+cooki.getStore('token')+'&appid='+query['oauth'])
             .then(data => data.json())
             .then(data => {
               if(!data.ok)
                 return props.setLogText('Failed to accept OAuth, ' + data.error);
 
-              window.location.href = data.url + '?token=' + localStorage.getItem('token');
+              window.location.href = data.url + '?token=' + cooki.getStore('token');
             })
         }
       

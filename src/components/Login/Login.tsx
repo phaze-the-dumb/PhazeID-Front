@@ -1,4 +1,5 @@
 import './Login.css';
+import * as cooki from '../../cookilib';
 
 class LoginProps{
   setPage!: ( page: string ) => string;
@@ -42,13 +43,13 @@ let Login = ( props: LoginProps ) => {
       return props.setLogText(res.error);
     }
 
-    localStorage.setItem('token', res.session);
+    cooki.setStore('token', res.session);
     props.setLogText('Success.');
 
     if(res.valid){
       if(res.requiresMfa)
         return props.setPage('session-mfa-verify');
-      
+
       return props.setPage('main');
     }
 

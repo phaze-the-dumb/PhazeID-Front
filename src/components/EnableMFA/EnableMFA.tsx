@@ -1,6 +1,7 @@
 import { onMount } from 'solid-js';
 import './EnableMFA.css';
 import CodeInput from '../CodeInput/CodeInput';
+import * as cooki from '../../cookilib';
 
 class EnableMFAProps{
   setPage!: ( page: string ) => string;
@@ -16,7 +17,7 @@ let EnableMFA = ( props: EnableMFAProps ) => {
   let prt1Info: HTMLElement;
 
   onMount(() => {
-    fetch('https://api.phazed.xyz/id/v1/auth/mfa/enable?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/auth/mfa/enable?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         qrImage.src = data.secret;
@@ -35,7 +36,7 @@ let EnableMFA = ( props: EnableMFAProps ) => {
   } 
 
   let codeEnter = ( code: string ) => {
-    fetch('https://api.phazed.xyz/id/v1/auth/mfa/enable?token='+localStorage.getItem('token'), { 
+    fetch('https://api.phazed.xyz/id/v1/auth/mfa/enable?token='+cooki.getStore('token'), { 
       method: 'POST',
       body: JSON.stringify({ code }),
       headers: { 'Content-Type': 'application/json' }

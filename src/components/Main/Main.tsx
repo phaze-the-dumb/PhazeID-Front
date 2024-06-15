@@ -1,6 +1,7 @@
 import { onMount } from 'solid-js';
 import './Main.css';
 import UserProfile from '../UserProfile/UserProfile';
+import * as cooki from '../../cookilib';
 
 class MainProps{
   setPage!: ( page: string ) => string;
@@ -24,11 +25,11 @@ let Main = ( props: MainProps ) => {
     return props.setPage('oauth');
 
   if(query['patreon'])
-    window.open('https://api.phazed.xyz/id/v1/patreon?token='+localStorage.getItem('token')!);
+    window.open('https://api.phazed.xyz/id/v1/patreon?token='+cooki.getStore('token')!);
 
   onMount(() => {
     props.setLogText('Requesting User Information.');
-    fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         if(!data.ok){

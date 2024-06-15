@@ -1,5 +1,6 @@
 import CodeInput from '../CodeInput/CodeInput';
 import './VerifyEmail.css';
+import * as cooki from '../../cookilib';
 
 class VerifyEmailProps{
   setPage!: ( page: string ) => string;
@@ -8,7 +9,7 @@ class VerifyEmailProps{
 
 let VerifyEmail = ( props: VerifyEmailProps ) => {
   let emailCode = ( code: string ) => {
-    fetch('https://api.phazed.xyz/id/v1/email/verify?token='+localStorage.getItem('token'), {
+    fetch('https://api.phazed.xyz/id/v1/email/verify?token='+cooki.getStore('token'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code })
@@ -31,7 +32,7 @@ let VerifyEmail = ( props: VerifyEmailProps ) => {
           
           if(query['oauth'])
             return props.setPage('oauth');
-          
+
           props.setPage('main');
       })
       .catch(e => {

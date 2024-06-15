@@ -18,7 +18,7 @@ let Sessions = ( props: SessionsProps ) => {
   }
 
   let deleteSession = ( sesId: string ) => {
-    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token=' + localStorage.getItem('token') + '&sessionId=' + sesId, { method: 'DELETE' })
+    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token=' + cooki.getStore('token') + '&sessionId=' + sesId, { method: 'DELETE' })
       .then(data => data.json())
       .then(data => {
         if(!data.ok)
@@ -33,7 +33,7 @@ let Sessions = ( props: SessionsProps ) => {
   }
 
   let loadSessions = () => {
-    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then((data: any) => {
         sessionsList.innerHTML = '';

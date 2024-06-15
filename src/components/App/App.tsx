@@ -1,5 +1,6 @@
 import { Match, Switch, createEffect, createSignal } from 'solid-js'
 import './App.css'
+import * as cooki from '../../cookilib';
 
 import LoadingMenu from '../LoadingMenu/LoadingMenu';
 import Login from '../Login/Login';
@@ -62,7 +63,7 @@ let App = () => {
         return setPage('password-reset');
 
       setLogText('API Up, Checking User Information.');
-      let token = localStorage.getItem('token');
+      let token = cooki.getStore('token');
 
       if(!token){
         setPage('login');

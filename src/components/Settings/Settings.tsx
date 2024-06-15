@@ -1,6 +1,7 @@
 import { onMount, Switch, Match, Show } from 'solid-js';
 import './Settings.css';
 import CodeInput from '../CodeInput/CodeInput';
+import * as cooki from '../../cookilib';
 
 class SettingsProps{
   setPage!: ( page: string ) => string;
@@ -24,7 +25,7 @@ let Settings = ( props: SettingsProps ) => {
     let submit = () => {
       content.innerHTML = 'Loading...';
 
-      fetch('https://api.phazed.xyz/id/v1/profile/email?token='+localStorage.getItem('token'), {
+      fetch('https://api.phazed.xyz/id/v1/profile/email?token='+cooki.getStore('token'), {
         method: 'PUT',
         body: JSON.stringify({ email: value! }),
         headers: {
@@ -94,7 +95,7 @@ let Settings = ( props: SettingsProps ) => {
         .map((b) => b.toString(16).padStart(2, "0"))
         .join("");
 
-      fetch('https://api.phazed.xyz/id/v1/auth/password?token='+localStorage.getItem('token'), {
+      fetch('https://api.phazed.xyz/id/v1/auth/password?token='+cooki.getStore('token'), {
         method: 'PUT',
         body: JSON.stringify({
           password: newHashHex,
@@ -158,7 +159,7 @@ let Settings = ( props: SettingsProps ) => {
     let submit = () => {
       content.innerHTML = 'Loading...';
 
-      fetch('https://api.phazed.xyz/id/v1/profile/username?token='+localStorage.getItem('token'), {
+      fetch('https://api.phazed.xyz/id/v1/profile/username?token='+cooki.getStore('token'), {
         method: 'PUT',
         body: JSON.stringify({ username: value! }),
         headers: {
@@ -197,13 +198,13 @@ let Settings = ( props: SettingsProps ) => {
   }
 
   let logout = () => {
-    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/auth/sessions?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         if(!data.ok)
           return props.setLogText('Error Logging Out (Fetching Sessions): ' + data.error);
 
-        fetch('https://api.phazed.xyz/id/v1/auth/sessions?token=' + localStorage.getItem('token') + '&sessionId=' + data.currentSession, { method: 'DELETE' })
+        fetch('https://api.phazed.xyz/id/v1/auth/sessions?token=' + cooki.getStore('token') + '&sessionId=' + data.currentSession, { method: 'DELETE' })
           .then(data => data.json())
           .then(data => {
             if(!data.ok)
@@ -222,7 +223,7 @@ let Settings = ( props: SettingsProps ) => {
   }
 
   let disableMFA = () => {
-    fetch('https://api.phazed.xyz/id/v1/auth/mfa/disable?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/auth/mfa/disable?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         if(!data.ok)
@@ -265,14 +266,14 @@ let Settings = ( props: SettingsProps ) => {
 
   let refreshPatreon = () => {
     props.setLogText('Refreshing Patreon data.');
-    fetch('https://api.phazed.xyz/id/v1/patreon/refresh?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/patreon/refresh?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         if(!data.ok){
           return props.setLogText('Error Refreshing Patreon data: ' + data.error);
         }
 
-        fetch('https://api.phazed.xyz/id/v1/patreon/tiers?token='+localStorage.getItem('token'))
+        fetch('https://api.phazed.xyz/id/v1/patreon/tiers?token='+cooki.getStore('token'))
           .then(data => data.json())
           .then(data => {
             if(!data.ok)return;
@@ -293,7 +294,7 @@ let Settings = ( props: SettingsProps ) => {
 
   onMount(() => {
     props.setLogText('Requesting User Information.');
-    fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/profile/@me?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         if(!data.ok){
@@ -309,7 +310,7 @@ let Settings = ( props: SettingsProps ) => {
         mainSettings();        
       })
 
-    fetch('https://api.phazed.xyz/id/v1/patreon/tiers?token='+localStorage.getItem('token'))
+    fetch('https://api.phazed.xyz/id/v1/patreon/tiers?token='+cooki.getStore('token'))
       .then(data => data.json())
       .then(data => {
         if(!data.ok)return;
@@ -333,7 +334,7 @@ let Settings = ( props: SettingsProps ) => {
 
       <div class="button" style={{ width: '100%' }} onClick={() => props.setPage('main')}>Back</div>
 
-      <div ref={( el ) => patreonAd = el} class="patreon-button" onClick={() => window.open('https://api.phazed.xyz/id/v1/patreon?token='+localStorage.getItem('token')!)}>Link Patreon Account</div>
+      <div ref={( el ) => patreonAd = el} class="patreon-button" onClick={() => window.open('https://api.phazed.xyz/id/v1/patreon?token='+cooki.getStore('token')!)}>Link Patreon Account</div>
       <div style={{ display: 'none' }} ref={( el ) => patreonThanks = el}>
         <div class="patreon-button" onClick={() => refreshPatreon()}>Refresh Patreon Account</div><br />
 

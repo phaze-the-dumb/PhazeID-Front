@@ -1,5 +1,6 @@
 import { Show } from 'solid-js';
 import './UserProfile.css';
+import * as cooki from '../../cookilib';
 
 class UserProfileProps{
   username?: string;
@@ -51,7 +52,7 @@ let UserProfile = ( props: UserProfileProps ) => {
           formData.append('img', blob!);
 
           props.setLogText('Uploading Image...');
-          fetch('https://api.phazed.xyz/id/v1/profile/avatar?token='+localStorage.getItem('token'), {
+          fetch('https://api.phazed.xyz/id/v1/profile/avatar?token='+cooki.getStore('token'), {
             method: 'PUT',
             body: formData
           })

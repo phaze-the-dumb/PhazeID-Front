@@ -1,4 +1,5 @@
 import './Signup.css';
+import * as cooki from '../../cookilib';
 
 class SignupProps{
   setPage!: ( page: string ) => string;
@@ -51,7 +52,7 @@ let Signup = ( props: SignupProps ) => {
       return props.setLogText(res.error);
     }
 
-    localStorage.setItem('token', res.session);
+    cooki.setStore('token', res.session);
     
     props.setLogText('Account Creation Successful. Please Verify Email.');
     props.setPage('verify-email');

@@ -36,7 +36,7 @@ let OAuth = ( props: OAuthProps ) => {
               if(!data.ok)
                 return props.setLogText('Failed to accept OAuth, ' + data.error);
 
-              window.location.href = data.url;
+              window.location.href = data.url + '?token=' + localStorage.getItem('token');
             })
         }
       
